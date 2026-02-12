@@ -1,0 +1,24 @@
+name: Build EXE
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Build Solution
+      run: msbuild MTADefaultLancher.sln /p:Configuration=Release
+
+    - name: Upload EXE
+      uses: actions/upload-artifact@v3
+      with:
+        name: MTADefaultLancher
+        path: MTADefaultLancher/bin/Release/
